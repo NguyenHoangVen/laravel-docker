@@ -1,0 +1,44 @@
+
+services:
+  nginx_server:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - "8080:80"
+    volumes: #Mounts folders/files from your machine to the container.
+      - ../source:/var/www
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on: # Sets startup order — tells Docker Compose which containers need to start before another.
+      - php_web
+  php_web:
+    build: 
+      context: ./php # Path to Dockerfile directory
+    container_name: php_web
+    volumes:
+      - ../source:/var/www
+      - /var/www/vendor
+  data_base:
+    image: mysql:8.0
+    container_name: database
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - ./mysql:/docker-entrypoint-initdb.d
+    ports:
+      - "3307:3306"
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin-con
+    restart: always
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: data_base
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    depends_on:
+      - data_base
