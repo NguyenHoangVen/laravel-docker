@@ -1,5 +1,5 @@
 ============================================================
-Dockerfile:
+    Dockerfile:
 ============================================================
 =>  It is used to build docker image.
 
@@ -20,24 +20,39 @@ Dockerfile:
 
 
 ==============================================================
-    dokcker composer
+    docker composer
 ==============================================================
-1.services :Defines the containers that will run. Each service is like a named container.
-2.build : Used when you want to build a Docker image from a Dockerfile.
-3.image: Use an existing Docker image from Docker Hub (or a private registry).
-4.container_name: Gives your container a fixed name (instead of random auto-generated names).
+1. services :Defines the containers that will run. Each service is like a named container.
+2. build : Used when you want to build a Docker image from a Dockerfile.
+3. image: Use an existing Docker image from Docker Hub (or a private registry).
+4. container_name: Gives your container a fixed name (instead of random auto-generated names).
 5. ports: Maps host ports to container ports.
     ports:
         - "8080:80"   # Host:Container
 6. volumnes: Mounts folders/files from your machine to the container.
 
+
 ==============================================================
-    Check status container
+    Docker build
 ==============================================================
 - docker composer build 
 - docker composer up -d
+- docker-compose down               # Stop and remove all container
 
-- docker ps #Container dang chay
-- docker ps -a # container da tat
-- docker inspect <container_name> # kiem tra cu the container
-- docker logs <container_name> # check logs cua container
+==============================================================
+    Docker container
+==============================================================
+- docker ps                         # Container is running
+- docker ps -a                      # Container if off
+- docker inspect <container_name>   # Check container
+- docker logs <container_name>      # Check logs of container
+- docker exec -it <container_id> sh # SH into container
+- docker rm <container_name_or_id>  # Remove container
+
+==============================================================
+    Docker image
+==============================================================
+- docker images                     # List image
+- docker inspect <image_id_or_name> # Information of image
+- docker rmi <image_id>             # Remove image
+- docker rmi $(docker images -q)    # Remove all images
