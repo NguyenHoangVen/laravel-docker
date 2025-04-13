@@ -56,3 +56,6 @@
 - docker inspect <image_id_or_name> # Information of image
 - docker rmi <image_id>             # Remove image
 - docker rmi $(docker images -q)    # Remove all images
+
+- docker run -d --name php-container -p 8000:80 my-php-app
+    => Chạy image my-php-app → tạo container tên php-container
